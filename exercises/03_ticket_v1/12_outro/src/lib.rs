@@ -11,3 +11,66 @@
 // Integration here has a very specific meaning: they test **the public API** of your project.
 // You'll need to pay attention to the visibility of your types and methods; integration
 // tests can't access private or `pub(crate)` items.
+
+use core::panic;
+
+pub struct Order {
+    product_name: String,
+    quantity: u32,
+    unit_price: u32,
+}
+
+impl Order {
+    pub fn new(product_name: String, quantity: u32, unit_price: u32) -> Self {
+        check_name(&product_name);
+        check_quantity(quantity);
+        check_price(unit_price);
+        Order {
+            product_name,
+            quantity,
+            unit_price,
+        }
+    }
+
+    pub fn total(&self) -> u32 {
+        self.quantity * self.unit_price
+    }
+
+    pub fn set_product_name(&mut self, name: String) {
+        check_name(&name);
+        self.product_name = name;
+    }
+    pub fn set_quantity(&mut self, quant: u32) {
+        check_quantity(quant);
+        self.quantity = quant;
+    }
+    pub fn set_unit_price(&mut self, price: u32) {
+        check_price(price);
+        self.unit_price = price;
+    }
+    pub fn product_name(&self) -> &String {
+        &self.product_name
+    }
+    pub fn quantity(&self) -> &u32 {
+        &self.quantity
+    }
+    pub fn unit_price(&self) -> &u32 {
+        &self.unit_price
+    }
+}
+
+fn check_name(name: &String) {
+    if name.is_empty() || name.len() > 300 {
+        panic!();
+    }
+}
+fn check_quantity(quantity: u32) {
+    if quantity <= 0 {
+        panic!("quantity must be above zero. currently {}", quantity);
+    }
+}
+fn check_price(price: u32) {
+    if price <= 0 {
+        panic!();
+    }
+}

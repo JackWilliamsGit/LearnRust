@@ -7,6 +7,7 @@ use outro_02::Order;
 #[test]
 fn test_order() {
     let mut order = Order::new("Rusty Book".to_string(), 3, 2999);
+    print!("creation worked");
 
     assert_eq!(order.product_name(), "Rusty Book");
     assert_eq!(order.quantity(), &3);
